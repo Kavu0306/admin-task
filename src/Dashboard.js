@@ -38,8 +38,8 @@ function Dashboard() {
         </Link>
       </div>
       <div className="row">
-        {cards.map((card) => {
-          return <Card data={card} />;
+        {cards.map((card, index) => {
+          return <Card id={index} data={card} />;
         })}
       </div>
     </>

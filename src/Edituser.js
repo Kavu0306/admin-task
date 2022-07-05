@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
-import "./App.css";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
-function Createuser() {
+function Edituser() {
   let navigate = useNavigate();
   let [isloading, setLoading] = useState(false);
+  const [tableData, settableData] = useState([]);
+  let { id } = useParams();
+
   let formik = useFormik({
     initialValues: {
       name: "",
@@ -43,7 +46,6 @@ function Createuser() {
 
       return errors;
     },
-
     onSubmit: async (values) => {
       try {
         setLoading(true);
@@ -56,6 +58,18 @@ function Createuser() {
       } catch (error) {}
     },
   });
+  async function getData() {
+    try {
+      let editDatas = await fetch(
+        `https://62c171f12af60be89ec757d8.mockapi.io/student/1`
+      );
+      let userEditData = await editDatas.json();
+      console.log(id);
+      formik.setValues(userEditData);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <>
       <div className="container">
@@ -157,5 +171,4 @@ function Createuser() {
     </>
   );
 }
-
-export default Createuser;
+export default Edituser;

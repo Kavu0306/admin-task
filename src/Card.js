@@ -1,8 +1,8 @@
 import React from "react";
 
-function Card({ data }) {
+function Card({ data, id }) {
   return (
-    <div className="col-xl-3 col-md-6 mb-4">
+    <div key={id} className="col-xl-3 col-md-6 mb-4">
       <div className={`card border-left-${data.theme} shadow h-100 py-2`}>
         <div className="card-body">
           <div className="row no-gutters align-items-center">

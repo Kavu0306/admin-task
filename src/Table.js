@@ -1,55 +1,71 @@
-import React from "react";
+import React, { useInsertionEffect } from "react";
 import "./App.css";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 function Table() {
-  const tableData = [
-    {
-      id: 1,
-      name: "Tiger Nixon",
-      position: "System Architect",
-      office: "Edinburgh",
-      age: "61",
-      date: "2011/04/25",
-      salary: "$320",
-    },
-    {
-      id: 2,
-      name: "Garrett Winters",
-      position: "Accountant",
-      office: "Tokyo",
-      age: "63",
-      date: "2011/07/25",
-      salary: "$170",
-    },
-    {
-      id: 3,
-      name: "Ashton Cox",
-      position: "Junior Technical Author",
-      office: "San Francisco",
-      age: "66",
-      date: "2009/01/12",
-      salary: "$86",
-    },
-    {
-      id: 4,
-      name: "Cedric Kelly",
-      position: "Senior Javascript Developer",
-      office: "Edinburgh",
-      age: "22",
-      date: "2012/03/29",
-      salary: "$433",
-    },
-    {
-      id: 5,
-      name: "Airi Satou",
-      position: "Accountant",
-      office: "Tokyo",
-      age: "33",
-      date: "2008/11/28",
-      salary: "$162",
-    },
-  ];
+  const [tableData, settableData] = useState([]);
+  async function getData() {
+    try {
+      const data = await fetch(
+        "https://62c171f12af60be89ec757d8.mockapi.io/student"
+      )
+        .then((d) => d.json())
+        .then((data) => settableData(data));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    getData();
+  }, []);
+  // const tableData = [
+  //   {
+  //     id: 1,
+  //     name: "Tiger Nixon",
+  //     position: "System Architect",
+  //     office: "Edinburgh",
+  //     age: "61",
+  //     date: "2011/04/25",
+  //     salary: "$320",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Garrett Winters",
+  //     position: "Accountant",
+  //     office: "Tokyo",
+  //     age: "63",
+  //     date: "2011/07/25",
+  //     salary: "$170",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Ashton Cox",
+  //     position: "Junior Technical Author",
+  //     office: "San Francisco",
+  //     age: "66",
+  //     date: "2009/01/12",
+  //     salary: "$86",
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "Cedric Kelly",
+  //     position: "Senior Javascript Developer",
+  //     office: "Edinburgh",
+  //     age: "22",
+  //     date: "2012/03/29",
+  //     salary: "$433",
+  //   },
+  //   {
+  //     id: 5,
+  //     name: "Airi Satou",
+  //     position: "Accountant",
+  //     office: "Tokyo",
+  //     age: "33",
+  //     date: "2008/11/28",
+  //     salary: "$162",
+  //   },
+  // ];
   return (
     <>
       <Link to={`/Users/createuser`} className="btn-btn-sm btn-warning">
@@ -69,8 +85,8 @@ function Table() {
             </tr>
           </thead>
           <tbody>
-            {tableData.map((contact) => (
-              <tr>
+            {tableData.map((contact, index) => (
+              <tr key={index}>
                 <td>{contact.name}</td>
                 <td>{contact.position}</td>
                 <td>{contact.office}</td>
@@ -78,17 +94,16 @@ function Table() {
                 <td>{contact.date}</td>
                 <td>{contact.salary}</td>
                 <td>
-                  <Link to={`/users/view/${tableData.id}`}>
+                  <Link to={`/users/view/${contact.id}`}>
                     <button className="viewbutton">View</button>
                   </Link>
-                  <Link to={`/users/view/${tableData.id}`}>
+                  <Link to={`/users/edit/${contact.id}`}>
                     <button className="editbutton">Edit</button>
                   </Link>
                   <button className="deletebutton">Delete</button>
                 </td>
               </tr>
             ))}
-            ;
           </tbody>
         </table>
       </div>

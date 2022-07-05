@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-function Viewuser() {
+function Productuser() {
   let { productid } = useParams();
   let userdata = [
     {
@@ -47,4 +47,4 @@ function Viewuser() {
   );
 }
 
-export default Viewuser;
+export default Productuser;

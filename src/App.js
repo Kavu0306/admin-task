@@ -7,10 +7,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Users from "./Users";
 import Card from "./Card";
 import Products from "./Products";
-import Viewuser from "./Viewuser";
+import Productuser from "./Productuser";
 import Table from "./Table";
 import Tableuser from "./Tableuser";
 import Createuser from "./Createuser";
+import Edituser from "./Edituser";
 function App() {
   return (
     <BrowserRouter>
@@ -24,9 +25,10 @@ function App() {
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/users" element={<Table />} />
                 <Route path="/products" element={<Products />} />
-                <Route path="/products/:productid" element={<Viewuser />} />
+                <Route path="/products/:productid" element={<Productuser />} />
                 <Route path="/users/view/:id" element={<Tableuser />} />
                 <Route path="/users/createuser" element={<Createuser />} />
+                <Route path="/users/edit/:id" element={<Edituser />} />
               </Routes>
             </div>
           </div>
