@@ -5,23 +5,23 @@ import Card from "./Card";
 function Dashboard() {
   const cards = [
     {
-      title: " EARNINGS (MONTHLY)",
-      amount: "$40,000",
+      title: "No.of students enrolled",
+      amount: "178",
       theme: "primary",
     },
     {
-      title: " EARNINGS (ANNUAL)",
-      amount: "$215,000",
+      title: " Teachers",
+      amount: "100",
       theme: "success",
     },
     {
-      title: " TASKS",
-      amount: "50%",
+      title: "Daily class",
+      amount: "80%",
       theme: "info",
     },
     {
-      title: "PENDING REQUESTS",
-      amount: 18,
+      title: "Student progress",
+      amount: "100%",
       theme: "warning",
     },
   ];
@@ -39,7 +39,7 @@ function Dashboard() {
       </div>
       <div className="row">
         {cards.map((card, index) => {
-          return <Card id={index} data={card} />;
+          return <Card key={index} id={index} data={card} />;
         })}
       </div>
     </>

@@ -14,9 +14,7 @@ function Sidebar() {
         <div className="sidebar-brand-icon rotate-n-15">
           <i className="fas fa-laugh-wink"></i>
         </div>
-        <div className="sidebar-brand-text mx-3">
-          SB Admin <sup>2</sup>
-        </div>
+        <div className="sidebar-brand-text mx-3">LearningApp</div>
       </a>
 
       <li className="nav-item active">
@@ -28,14 +26,14 @@ function Sidebar() {
       <li className="nav-item">
         <Link className="nav-link" to="/users">
           <i className="fas fa-fw fa-chart-area"></i>
-          <span>Users</span>
+          <span>Students and Teachers</span>
         </Link>
       </li>
 
       <li className="nav-item">
         <Link className="nav-link" to="/products">
           <i className="fas fa-fw fa-table"></i>
-          <span>Products</span>
+          <span>Subjects</span>
         </Link>
       </li>
 
@@ -52,8 +50,7 @@ function Sidebar() {
           alt="..."
         />
         <p className="text-center mb-2">
-          <strong>SB Admin Pro</strong> is packed with premium features,
-          components, and more!
+          <strong></strong>
         </p>
         <a
           className="btn btn-success btn-sm"

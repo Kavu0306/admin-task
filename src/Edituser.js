@@ -1,17 +1,16 @@
-import React, { useEffect } from "react";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import axios from "axios";
+import React from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import axios from "./axios";
+import { useNavigate } from "react-router-dom";
 
 function Edituser() {
-  let navigate = useNavigate();
   let [isloading, setLoading] = useState(false);
   const [tableData, settableData] = useState([]);
-  let { id } = useParams();
-
-  let formik = useFormik({
+  let params = useParams();
+  let navigate = useNavigate();
+  const formik = useFormik({
     initialValues: {
       name: "",
       position: "",
@@ -20,7 +19,6 @@ function Edituser() {
       date: "",
       salary: "",
     },
-
     validate: (values) => {
       let errors = {};
       if (!values.name) {
@@ -49,126 +47,120 @@ function Edituser() {
     onSubmit: async (values) => {
       try {
         setLoading(true);
-        console.log(values);
-        await axios.post(
-          "https://62c171f12af60be89ec757d8.mockapi.io/student",
-          values
-        );
+        await axios.put(`/student/${params.id}`, values);
         navigate("/users");
-      } catch (error) {}
+      } catch (error) {
+        alert("something went wrong");
+      }
     },
   });
-  async function getData() {
-    try {
-      let editDatas = await fetch(
-        `https://62c171f12af60be89ec757d8.mockapi.io/student/1`
-      );
-      let userEditData = await editDatas.json();
-      console.log(id);
-      formik.setValues(userEditData);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  let fetchData = async () => {
+    let userData = await axios.get(`/student/${params.id}`);
+
+    settableData(userData.data);
+    formik.setValues(userData.data);
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
-    <>
-      <div className="container">
-        <form onSubmit={formik.handleSubmit}>
-          <div className="row">
-            <div className="col-lg-6">
-              <label>Name</label>
-              <input
-                name="name"
-                onChange={formik.handleChange}
-                value={formik.values.name}
-                type="text"
-                className={`form-control ${
-                  formik.errors.name ? "error-border" : ""
-                }`}
-              ></input>
-              {formik.errors.name ? <span>{formik.errors.name}</span> : ""}
-            </div>
-            <div className="col-lg-6">
-              <label>Position</label>
-              <input
-                name="position"
-                onChange={formik.handleChange}
-                value={formik.values.position}
-                type="text"
-                className={`form-control ${
-                  formik.errors.position ? "error-border" : ""
-                }`}
-              ></input>
-              {formik.errors.position ? (
-                <span>{formik.errors.position}</span>
-              ) : (
-                ""
-              )}
-            </div>
-            <div className="col-lg-6">
-              <label>Office</label>
-              <input
-                name="office"
-                onChange={formik.handleChange}
-                value={formik.values.office}
-                type="text"
-                className={`form-control ${
-                  formik.errors.office ? "error-border" : ""
-                }`}
-              ></input>
-              {formik.errors.office ? <span>{formik.errors.office}</span> : ""}
-            </div>
-            <div className="col-lg-6">
-              <label>Age</label>
-              <input
-                name="age"
-                onChange={formik.handleChange}
-                value={formik.values.age}
-                type="text"
-                className={`form-control ${
-                  formik.errors.age ? "error-border" : ""
-                }`}
-              ></input>
-              {formik.errors.age ? <span>{formik.errors.age}</span> : ""}
-            </div>
-            <div className="col-lg-6">
-              <label>Date</label>
-              <input
-                name="date"
-                onChange={formik.handleChange}
-                value={formik.values.date}
-                type="date"
-                className={`form-control ${
-                  formik.errors.date ? "error-border" : ""
-                }`}
-              ></input>
-              {formik.errors.date ? <span>{formik.errors.date}</span> : ""}
-            </div>
-            <div className="col-lg-6">
-              <label>Salary</label>
-              <input
-                name="salary"
-                onChange={formik.handleChange}
-                value={formik.values.salary}
-                type="text"
-                className={`form-control ${
-                  formik.errors.salary ? "error-border" : ""
-                }`}
-              ></input>
-              {formik.errors.salary ? <span>{formik.errors.salary}</span> : ""}
-            </div>
-            <div className="col-lg-6">
-              <input
-                type={"submit"}
-                value="Submit"
-                className="submitbutton"
-                disabled={!formik.isValid && isloading}
-              ></input>
-            </div>
+    <div className="container">
+      <form onSubmit={formik.handleSubmit}>
+        <div className="row">
+          <div className="col-lg-6">
+            <label>Name</label>
+            <input
+              name="name"
+              onChange={formik.handleChange}
+              value={formik.values.name}
+              type="text"
+              className={`form-control ${
+                formik.errors.name ? "error-border" : ""
+              }`}
+            ></input>
+            {formik.errors.name ? <span>{formik.errors.name}</span> : ""}
           </div>
-        </form>
-      </div>
-    </>
+          <div className="col-lg-6">
+            <label>Position</label>
+            <input
+              name="position"
+              onChange={formik.handleChange}
+              value={formik.values.position}
+              type="text"
+              className={`form-control ${
+                formik.errors.position ? "error-border" : ""
+              }`}
+            ></input>
+            {formik.errors.position ? (
+              <span>{formik.errors.position}</span>
+            ) : (
+              ""
+            )}
+          </div>
+          <div className="col-lg-6">
+            <label>Office</label>
+            <input
+              name="office"
+              onChange={formik.handleChange}
+              value={formik.values.office}
+              type="text"
+              className={`form-control ${
+                formik.errors.office ? "error-border" : ""
+              }`}
+            ></input>
+            {formik.errors.office ? <span>{formik.errors.office}</span> : ""}
+          </div>
+          <div className="col-lg-6">
+            <label>Age</label>
+            <input
+              name="age"
+              onChange={formik.handleChange}
+              value={formik.values.age}
+              type="text"
+              className={`form-control ${
+                formik.errors.age ? "error-border" : ""
+              }`}
+            ></input>
+            {formik.errors.age ? <span>{formik.errors.age}</span> : ""}
+          </div>
+          <div className="col-lg-6">
+            <label>Date</label>
+            <input
+              name="date"
+              onChange={formik.handleChange}
+              value={formik.values.date}
+              type="date"
+              className={`form-control ${
+                formik.errors.date ? "error-border" : ""
+              }`}
+            ></input>
+            {formik.errors.date ? <span>{formik.errors.date}</span> : ""}
+          </div>
+          <div className="col-lg-6">
+            <label>Salary</label>
+            <input
+              name="salary"
+              onChange={formik.handleChange}
+              value={formik.values.salary}
+              type="text"
+              className={`form-control ${
+                formik.errors.salary ? "error-border" : ""
+              }`}
+            ></input>
+            {formik.errors.salary ? <span>{formik.errors.salary}</span> : ""}
+          </div>
+          <div className="col-lg-6">
+            <input
+              type={"submit"}
+              value="Submit"
+              className="submitbutton"
+              disabled={!formik.isValid && isloading}
+            ></input>
+          </div>
+        </div>
+      </form>
+    </div>
   );
 }
 export default Edituser;

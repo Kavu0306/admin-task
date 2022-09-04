@@ -1,76 +1,35 @@
-import React, { useInsertionEffect } from "react";
+import React from "react";
 import "./App.css";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-
+import axios from "./axios";
 function Table() {
   const [tableData, settableData] = useState([]);
-  async function getData() {
-    try {
-      const data = await fetch(
-        "https://62c171f12af60be89ec757d8.mockapi.io/student"
-      )
-        .then((d) => d.json())
-        .then((data) => settableData(data));
-    } catch (error) {
-      console.log(error);
-    }
-  }
+
+  let fetchData = async () => {
+    let userData = await axios.get("/student");
+
+    settableData(userData.data);
+  };
+
   useEffect(() => {
-    getData();
+    fetchData();
   }, []);
-  // const tableData = [
-  //   {
-  //     id: 1,
-  //     name: "Tiger Nixon",
-  //     position: "System Architect",
-  //     office: "Edinburgh",
-  //     age: "61",
-  //     date: "2011/04/25",
-  //     salary: "$320",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Garrett Winters",
-  //     position: "Accountant",
-  //     office: "Tokyo",
-  //     age: "63",
-  //     date: "2011/07/25",
-  //     salary: "$170",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Ashton Cox",
-  //     position: "Junior Technical Author",
-  //     office: "San Francisco",
-  //     age: "66",
-  //     date: "2009/01/12",
-  //     salary: "$86",
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "Cedric Kelly",
-  //     position: "Senior Javascript Developer",
-  //     office: "Edinburgh",
-  //     age: "22",
-  //     date: "2012/03/29",
-  //     salary: "$433",
-  //   },
-  //   {
-  //     id: 5,
-  //     name: "Airi Satou",
-  //     position: "Accountant",
-  //     office: "Tokyo",
-  //     age: "33",
-  //     date: "2008/11/28",
-  //     salary: "$162",
-  //   },
-  // ];
+
+  let handleDelete = async (id) => {
+    let ask = window.confirm("do you want to delete this user data?");
+    if (ask) {
+      await axios.delete(`/student/${id}`);
+      fetchData();
+    }
+  };
+
   return (
     <>
       <Link to={`/Users/createuser`} className="btn-btn-sm btn-warning">
         <button className="createuser">create user</button>
       </Link>
+
       <div className="app-container">
         <table>
           <thead>
@@ -100,7 +59,12 @@ function Table() {
                   <Link to={`/users/edit/${contact.id}`}>
                     <button className="editbutton">Edit</button>
                   </Link>
-                  <button className="deletebutton">Delete</button>
+                  <button
+                    onClick={() => handleDelete(contact.id)}
+                    className="deletebutton"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}

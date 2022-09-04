@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import "./App.css";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "./axios";
 
 function Createuser() {
   let navigate = useNavigate();
@@ -48,10 +48,7 @@ function Createuser() {
       try {
         setLoading(true);
         console.log(values);
-        await axios.post(
-          "https://62c171f12af60be89ec757d8.mockapi.io/student",
-          values
-        );
+        await axios.post("/student", values);
         navigate("/users");
       } catch (error) {}
     },
