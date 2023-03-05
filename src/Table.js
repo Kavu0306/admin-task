@@ -35,7 +35,7 @@ function Table() {
           <thead>
             <tr>
               <th>name</th>
-              <th> position</th>
+              <th> positions</th>
               <th>office</th>
               <th>age</th>
               <th>date</th>

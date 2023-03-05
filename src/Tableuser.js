@@ -10,7 +10,7 @@ function Tableuser() {
       <h6>{userData.first.name}</h6>
       <button
         onClick={() => {
-          userData.setfirst({ person: "2", name: "kavu", age: "22" });
+          userData.setfirst({ person: "1", name: "kavu", age: "22" });
         }}
       >
         change
